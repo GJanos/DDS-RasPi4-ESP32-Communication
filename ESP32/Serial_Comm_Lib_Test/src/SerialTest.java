@@ -171,14 +171,16 @@ public class SerialTest
 
         try {
             while (true) {
-                while (MySerialPort.bytesAvailable() <= 0)
+                while (MySerialPort.bytesAvailable() <= 12)
                     Thread.sleep(20);
 
                 int availableBytes = MySerialPort.bytesAvailable();
                 byte[] readBuffer = new byte[availableBytes];
                 int numRead = MySerialPort.readBytes(readBuffer, readBuffer.length);
                 String message =  new String(readBuffer, 0, numRead); //new String(readBuffer, StandardCharsets.UTF_8);
-                if(availableBytes > 5){
+                message = message.split("\\n")[1];
+
+                if(message.length()>=4){
                     try {
                         double distance = Double.parseDouble(message);
                         System.out.println(distance);
